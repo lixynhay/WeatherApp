@@ -20,10 +20,33 @@
 
 ## 🛠 Установка и запуск
 
-### 1. Из исходников
-
-Клонируйте репозиторий:
+1. Клонируйте репозиторий:
 
 ```bash
 git clone https://github.com/<твоя_учётка>/WeatherApp.git
 cd WeatherApp
+```
+
+2. Убедитесь, что установлен .NET 10 SDK (или выше):
+```bash
+dotnet --list-sdks
+```
+
+3. Соберите exe:
+```bash
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true
+```
+
+4. .exe будет создан в папке:
+```bash
+bin\Release\net10.0-windows\win-x64\publish\
+```
+
+5. Запустите WeatherApp.exe через ярлык или через командную строку:
+```bash
+#Через ярлык
+bin\Release\net10.0-windows\win-x64\publish\WeatherApp.exe
+
+#Через командную строку
+dotnet build
+dotnet run
