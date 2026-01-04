@@ -1,0 +1,7 @@
+# .gitignore для .NET WPF
+bin/
+obj/
+*.user
+*.suo
+*.vs/
+*.vscode/

@@ -1,0 +1,94 @@
+﻿<Window x:Class="WeatherApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WeatherApp"
+        Title="Weather App"
+        WindowState="Maximized"
+        Background="#1E1E2E" Foreground="White">
+
+    <Window.Resources>
+        <local:TextEmptyToVisibilityConverter x:Key="TextEmptyToVisibilityConverter"/>
+
+        <!-- Стиль кнопок -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#3A3A50"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="5,2"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderBrush" Value="#555"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="5,0,0,0"/>
+        </Style>
+
+        <!-- Стиль TextBox -->
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#2D2D40"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderBrush" Value="#555"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="220"/>
+        </Grid.RowDefinitions>
+
+        <!-- Ввод города -->
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <Grid Width="250" Height="30">
+                <TextBox x:Name="CityInput"/>
+                <TextBlock Text="Введите город..." Foreground="Gray" Margin="5,0,0,0"
+                           VerticalAlignment="Center" IsHitTestVisible="False"
+                           Visibility="{Binding Text, ElementName=CityInput, Converter={StaticResource TextEmptyToVisibilityConverter}}"/>
+            </Grid>
+            <Button Content="Получить погоду" Click="GetWeather_Click"/>
+        </StackPanel>
+
+        <!-- Основная панель -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Левый блок: город, небо, эффект погоды -->
+            <Grid Grid.Column="0">
+                <Canvas x:Name="SkyCanvas" ClipToBounds="True"/>
+                <Canvas x:Name="GroundCanvas" ClipToBounds="True"/>
+                <Canvas x:Name="WeatherAnimationCanvas" ClipToBounds="True"/>
+                <StackPanel x:Name="WeatherPanel" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Border Background="#2D2D40" Padding="15" CornerRadius="15" Opacity="0.85">
+                        <StackPanel HorizontalAlignment="Center">
+                            <Image x:Name="WeatherIcon" Width="140" Height="140"/>
+                            <TextBlock x:Name="TemperatureText" FontSize="42" FontWeight="Bold" TextAlignment="Center" Margin="0,10,0,0"/>
+                            <TextBlock x:Name="DescriptionText" FontSize="20" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- Правая часть: детали -->
+            <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
+                <Border Background="#2D2D40" Padding="15" CornerRadius="15" Opacity="0.85">
+                    <StackPanel>
+                        <TextBlock x:Name="FeelsLikeText" FontSize="16" Margin="0,5"/>
+                        <TextBlock x:Name="HumidityText" FontSize="16" Margin="0,5"/>
+                        <TextBlock x:Name="PressureText" FontSize="16" Margin="0,5"/>
+                        <TextBlock x:Name="WindText" FontSize="16" Margin="0,5"/>
+                        <TextBlock x:Name="SunText" FontSize="16" Margin="0,5"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
+
+        <!-- Прогноз на 5 дней -->
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto">
+            <StackPanel x:Name="ForecastPanel" Orientation="Horizontal" VerticalAlignment="Center"/>
+        </ScrollViewer>
+    </Grid>
+</Window>
